@@ -15,16 +15,24 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
 
   // Adapted from Mozilla Dev Network
   const getRandomIndex = () => Math.floor(Math.random() * 7)
 
   const randomAnecdote = () => setSelected(getRandomIndex())
 
+  const incrementVote = () => {
+    const new_votes = [...votes]
+    new_votes[selected] ++
+    setVotes(new_votes)
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
-      <br/>
+      {anecdotes[selected]}<br/>
+      has {votes[selected]} votes<br/>
+      <Button text="vote" handleClick={incrementVote}/>
       <Button text="next anecdote" handleClick={randomAnecdote}/>
     </div>
   )

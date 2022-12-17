@@ -8,8 +8,16 @@ const Section = ({text}) => <h1>{text}</h1>
 const Display = ({text, count}) => <p>{text} {count}</p>
 
 const Statistics = ({good, neutral, bad}) => {
-    console.log(good)
     const all = good + neutral + bad
+
+    if (all === 0){
+        return (
+            <div>
+                <Section text="statistics"/>
+                No feedback given
+            </div>
+        )
+    }
     const avg = (all === 0) ? 0 : (good-bad)/all
     const percent_pos = (all === 0) ? 0 : 100*good/all
 

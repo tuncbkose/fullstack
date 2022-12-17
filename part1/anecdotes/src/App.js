@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const Section = ({text}) => <h1>{text}</h1>
+
 const Button = ({text, handleClick}) =>
     <button onClick={handleClick}>{text}</button>
 
@@ -22,6 +24,11 @@ const App = () => {
 
   const randomAnecdote = () => setSelected(getRandomIndex())
 
+  const maxIndex = (arr) => arr.reduce(
+      (maxIdxSoFar, currVal, currIdx, arr) => (currVal>arr[maxIdxSoFar]) ? currIdx : maxIdxSoFar,
+      0
+  )
+
   const incrementVote = () => {
     const new_votes = [...votes]
     new_votes[selected] ++
@@ -30,10 +37,13 @@ const App = () => {
 
   return (
     <div>
+      <Section text="Anecdote of the day"/>
       {anecdotes[selected]}<br/>
       has {votes[selected]} votes<br/>
       <Button text="vote" handleClick={incrementVote}/>
       <Button text="next anecdote" handleClick={randomAnecdote}/>
+      <Section text="Anecdote with most votes"/>
+      {anecdotes[maxIndex(votes)]}
     </div>
   )
 }

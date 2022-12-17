@@ -6,13 +6,21 @@ const Header = (props) => {
     )
 }
 
-const Content = (props) => {
-    // I had to add the key attribute to get rid of a warning
-    // I am not sure why yet, because this is not an HTML list
+const Part = (props) => {
     return (
-        <>
-            {props.parts.map((val, idx)=><p key={idx}>{val} {props.n_exercises[idx]}</p>)}
-        </>
+        <p>
+            {props.name} {props.n_exercise}
+        </p>
+    )
+}
+
+const Content = (props) => {
+    return (
+        <div>
+            <Part name={props.parts[0]} n_exercise={props.n_exercises[0]} />
+            <Part name={props.parts[1]} n_exercise={props.n_exercises[1]} />
+            <Part name={props.parts[2]} n_exercise={props.n_exercises[2]} />
+        </div>
     )
 }
 

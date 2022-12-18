@@ -1,6 +1,8 @@
 const Header = ({ course }) => <h1>{course}</h1>
 
-//const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+const Total = ({ sum }) =>
+    // Proper pluralization
+    <b>total of {sum} exercise{(sum===1) ? "" : "s"}</b>
 
 const Part = ({ part }) => 
   <p>
@@ -15,11 +17,15 @@ const Content = ({ parts }) =>
   </>
 
 const Course = ({course}) => {
-    return(
-        <>
-            <Header course={course.name}/>
-            <Content parts={course.parts}/>
-        </>
+  const sum = course.parts.reduce(
+      (par_sum, part) => par_sum+part.exercises,
+      0)
+  return(
+      <>
+        <Header course={course.name}/>
+        <Content parts={course.parts}/>
+        <Total sum={sum}/>
+      </>
     )
 }
 

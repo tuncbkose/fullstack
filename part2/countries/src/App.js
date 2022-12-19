@@ -12,7 +12,6 @@ function App() {
             .get("https://restcountries.com/v3.1/all")
             .then(response => {
                 setCountries(response.data)
-                console.log(response.data)
             })
     }, [])
 
@@ -20,10 +19,14 @@ function App() {
           setFilter(event.target.value)
         }
 
+        const clickHandler = (name) => () => {
+            setFilter(name.toLowerCase())
+        }
+
       return (
         <div>
             <Filter updateFilter={updateFilter}/>
-            <Countries countries={countries} filter={filter}/>
+            <Countries countries={countries} filter={filter} clickHandler={clickHandler}/>
         </div>
       );
 }

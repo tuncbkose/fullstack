@@ -1,6 +1,13 @@
 import Country from "./Country"
 
-const Countries = ({countries, filter}) => {
+const ShowButton = ({clickHandler}) => {
+    return(
+        <button onClick={clickHandler}>show</button>
+    )
+}
+
+const Countries = ({countries, filter, clickHandler}) => {
+
     const filtered = countries.filter(
         (country) => country.name.common.toLowerCase().includes(filter)
     )
@@ -13,7 +20,10 @@ const Countries = ({countries, filter}) => {
     } else {
         return (
             filtered.map(
-                (country) => <div key={country.ccn3}>{country.name.common}</div>
+                (country) =>
+                    <div key={country.ccn3}>
+                    {country.name.common} <ShowButton clickHandler={clickHandler(country.name.common)}/>
+                    </div>
             )
         )
     }

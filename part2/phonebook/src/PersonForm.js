@@ -1,5 +1,3 @@
-import App from "./App";
-
 const PersonForm = ({newName, handleName, newNumber, handleNumber, handleAdd}) => {
     return (
     <form>

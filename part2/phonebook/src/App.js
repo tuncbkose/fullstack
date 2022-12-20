@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from "axios"
 import Numbers from "./Numbers.js"
 import PersonForm from "./PersonForm.js"
 import Filter from "./Filter.js"
+import phonebookService from "./services"
 
 
 const App = () => {
@@ -12,10 +12,10 @@ const App = () => {
     const [filter, setFilter] = useState("")
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/persons")
-            .then(response => {
-                setPersons(response.data)
+        phonebookService
+            .getAll()
+            .then(persons => {
+                setPersons(persons)
             })
     }, [])
 
@@ -29,11 +29,15 @@ const App = () => {
             const person = {
                 name: newName,
                 number: newNumber,
-                id: persons.length + 1
             }
-            setPersons(persons.concat(person))
-            setNewName("")
-            setNewNumber("")
+
+            phonebookService
+                .create(person)
+                .then(returnedPerson =>{
+                    setPersons(persons.concat(returnedPerson))
+                    setNewName("")
+                    setNewNumber("")
+                })
         }
     }
 

@@ -53,6 +53,22 @@ const App = () => {
         setFilter(event.target.value)
     }
 
+    const deleteEntry = (id) => {
+        phonebookService
+            .deleteEntry(id)
+            .then(() => {
+                setPersons(persons.filter(
+                    person => person.id !== id
+                ))
+            })
+            .catch(error => {
+                alert(`person with id: ${id} was already deleted from server`)
+                setPersons(persons.filter(
+                    person => person.id !== id
+                ))
+            })
+    }
+
     return (
         <div>
             <h2>Phonebook</h2>
@@ -67,7 +83,7 @@ const App = () => {
                         handleAdd={addEntry}/>
 
             <h3>Numbers</h3>
-            <Numbers persons={persons} filter={filter}/>
+            <Numbers persons={persons} filter={filter} deleteEntry={deleteEntry}/>
         </div>
   )
 }

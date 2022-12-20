@@ -11,7 +11,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState("")
     const [filter, setFilter] = useState("")
-    const [message, setMessage] = useState("")
+    const [notification, setNotification] = useState({message: "", color: ""})
 
     useEffect(() => {
         phonebookService
@@ -33,10 +33,17 @@ const App = () => {
                     .update(newEntry)
                     .then(returnedEntry => {
                         setPersons(persons.map(person => person.name !== newName ? person : returnedEntry))
-                        setMessage(`Updated ${newName}`)
+                        setNotification({message:`Updated ${newName}`, color:"green"})
                         setNewName("")
                         setNewNumber("")
-                        setTimeout(setMessage, 3000, "")
+                        setTimeout(setNotification, 3000, {message: "", color: ""})
+                    })
+                    .catch(error => {
+                        setNotification({
+                            message: `Information of ${newName} has already been removed from server`,
+                            color: "red"
+                    })
+                        setTimeout(setNotification, 3000, {message: "", color: ""})
                     })
             }
         } else {
@@ -49,8 +56,11 @@ const App = () => {
                 .create(person)
                 .then(returnedPerson =>{
                     setPersons(persons.concat(returnedPerson))
-                    setMessage(`Added ${newName}`)
-                    setTimeout(setMessage, 3000, "")
+                    setNotification({
+                        message:`Added ${newName}`,
+                        color: "green"
+                })
+                    setTimeout(setNotification, 3000, {message: "", color: ""})
                     setNewName("")
                     setNewNumber("")
                 })
@@ -88,7 +98,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={message}/>
+            <Notification settings={notification}/>
             <Filter updateFilter={updateFilter}/>
 
             <h3>add a new</h3>

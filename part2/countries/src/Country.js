@@ -1,3 +1,5 @@
+import Weather from "./Weather"
+
 const Country = ({country}) => {
     const languages = Object.values(country.languages)
 
@@ -13,7 +15,8 @@ const Country = ({country}) => {
                     (lang, idx) => <li key={idx}>{lang}</li>
                 )}
             </ul>
-            <img src={country.flags.png}/>
+            <img src={country.flags.png} alt={`Flag of ${country.name.common}`}/>
+            <Weather country={country}/>
         </>
     )
 }

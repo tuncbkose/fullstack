@@ -16,6 +16,11 @@ const deleteEntry = id => {
     return request.then(response => {})
 }
 
+const update = newObject => {
+    const request = axios.put(`${baseUrl}/${newObject.id}`, newObject)
+    return request.then(response => response.data)
+}
 
-const phonebookService = { getAll, create, deleteEntry }
+
+const phonebookService = { getAll, create, deleteEntry, update }
 export default phonebookService

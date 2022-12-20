@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Numbers from "./Numbers.js"
 import PersonForm from "./PersonForm.js"
 import Filter from "./Filter.js"
+import Notification from "./Notification.js"
 import phonebookService from "./services"
 
 
@@ -10,6 +11,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState("")
     const [filter, setFilter] = useState("")
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         phonebookService
@@ -31,6 +33,10 @@ const App = () => {
                     .update(newEntry)
                     .then(returnedEntry => {
                         setPersons(persons.map(person => person.name !== newName ? person : returnedEntry))
+                        setMessage(`Updated ${newName}`)
+                        setNewName("")
+                        setNewNumber("")
+                        setTimeout(setMessage, 3000, "")
                     })
             }
         } else {
@@ -43,6 +49,8 @@ const App = () => {
                 .create(person)
                 .then(returnedPerson =>{
                     setPersons(persons.concat(returnedPerson))
+                    setMessage(`Added ${newName}`)
+                    setTimeout(setMessage, 3000, "")
                     setNewName("")
                     setNewNumber("")
                 })
@@ -80,7 +88,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-
+            <Notification message={message}/>
             <Filter updateFilter={updateFilter}/>
 
             <h3>add a new</h3>

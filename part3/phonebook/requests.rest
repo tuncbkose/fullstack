@@ -1,0 +1,41 @@
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Tunc Kose"
+}
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "number": "12345"
+}
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Tunc Kose",
+  "number": "12345"
+}
+
+###
+http://localhost:3001/api/persons
+
+###
+
+http://localhost:3001/info
+
+###
+
+http://localhost:3001/api/persons/1
+
+###
+
+DELETE http://localhost:3001/api/persons/4
+
+###
+

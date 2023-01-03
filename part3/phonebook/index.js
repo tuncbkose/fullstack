@@ -8,6 +8,7 @@ morgan.token("body", (req, res) => {
 })
 
 const app = express()
+app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
@@ -77,7 +78,7 @@ app.post("/api/persons", (request, response) => {
     const person = {
         id: generateId(),
         name: body.name,
-        phone: body.number
+        number: body.number
     }
     persons = persons.concat(person)
 

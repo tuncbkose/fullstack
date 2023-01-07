@@ -60,14 +60,23 @@ app.post("/api/persons", (request, response, next) => {
         return response.status(400).json({error: "number missing"})
     }
 
-    const person = new Person({
-        name: body.name,
-        number: body.number
-    })
+    Person.find({name: body.name})
+        .then(found => {
+            if (found.length !== 0) {
+                return response.status(400).json({
+                    error: "already have entry with given name, use put request to change it"
+                })
+            }
+            const person = new Person({
+                name: body.name,
+                number: body.number
+            })
 
-    person.save()
-        .then(savedPerson => {
-            response.json(savedPerson)
+            person.save()
+                .then(savedPerson => {
+                    response.json(savedPerson)
+                })
+            .catch(error => next(error))
         })
         .catch(error => next(error))
 })

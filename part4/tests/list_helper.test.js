@@ -6,8 +6,7 @@ test('dummy returns one', () => {
   expect(result).toBe(1)
 })
 
-describe('total likes', () => {
-  const blogs = [
+const blogs = [
   {
     _id: "5a422a851b54a676234d17f7",
     title: "React patterns",
@@ -56,7 +55,9 @@ describe('total likes', () => {
     likes: 2,
     __v: 0
   }
-  ]
+]
+
+describe('total likes', () => {
 
   test('of empty list is zero', () => {
     expect(listHelper.totalLikes([])).toBe(0)
@@ -70,5 +71,22 @@ describe('total likes', () => {
   test('of a bigger list is calculated right', () => {
     const result = listHelper.totalLikes(blogs)
     expect(result).toBe(36)
+  })
+})
+
+describe('favorite blog', () => {
+
+  test('of empty list is null', () => {
+    expect(listHelper.favoriteBlog([])).toBe(null)
+  })
+
+  test('when list has only one blog', () => {
+    const result = listHelper.favoriteBlog(blogs.slice(0,1))
+    expect(result).toEqual(blogs[0])
+  })
+
+  test('of a bigger list is calculated right', () => {
+    const result = listHelper.favoriteBlog(blogs)
+    expect(result).toEqual(blogs[2])
   })
 })

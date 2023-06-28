@@ -6,8 +6,7 @@ const helper = require('./test_helper')
 
 const api = supertest(app)
 
-// In the example, this is beforeEach, but I think this is fine
-beforeAll(async () => {
+beforeEach(async () => {
   await Blog.deleteMany({})
   for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog)
@@ -80,6 +79,35 @@ describe('Properties', () => {
         .send(noUrl)
         .expect(400)
   }, 100000)
+})
+
+test('delete a blog', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+  const blogs = await helper.blogsInDb()
+  expect(blogs).toHaveLength(helper.initialBlogs.length -1)
+})
+
+test('update `likes`', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const update = {
+    likes: 12
+  }
+
+  await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(update)
+      .expect(200)
+
+  const blogs = await helper.blogsInDb()
+  expect(blogs[0].likes).toEqual(12)
 })
 
 afterAll(async () => {

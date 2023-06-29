@@ -1,9 +1,9 @@
 const loginForm = ({
-                       loginHandler,
-                       username,
-                       setUsername,
-                       password,
-                       setPassword
+       loginHandler,
+       username,
+       setUsername,
+       password,
+       setPassword
     }) => (
     <form onSubmit={loginHandler}>
         <div>

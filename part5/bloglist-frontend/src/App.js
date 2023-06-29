@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Togglable from "./components/Togglable";
 import LoginForm from './components/LoginForm'
 import BlogForm from "./components/BlogForm"
 
@@ -63,7 +64,29 @@ const App = () => {
 
   const createBlog = async (event) => {
     event.preventDefault()
-    console.log("Create a new blog with", title, author, url)
+    try {
+      const newBlog = {
+        title: title,
+        author: author,
+        url: url
+      }
+      await blogService.create(newBlog)
+      setBlogs(blogs.concat(newBlog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setNotification({
+        message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
+        color: "green"
+      })
+      setTimeout(setNotification, 3000, { message: "", color: ""})
+    } catch (exception) {
+      setNotification({
+        message: exception.response.data.error,
+        color: "red"
+      })
+      setTimeout(setNotification, 3000, { message: "", color: ""})
+    }
   }
 
   return (
@@ -86,6 +109,7 @@ const App = () => {
               {user.name} logged in
               <button type="button" onClick={handleLogout}>logout</button>
             </p>
+            <Togglable buttonLabel="new note">
             <h2>create new</h2>
             <BlogForm
               createHandler={createBlog}
@@ -95,6 +119,8 @@ const App = () => {
               setAuthor={setAuthor}
               url={url}
               setUrl={setUrl}/>
+              </Togglable>
+
               <h2> blogs</h2>
               {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />

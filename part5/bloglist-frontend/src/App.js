@@ -96,6 +96,24 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (blog) => {
+    try {
+      await blogService.del(blog)
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      setNotification({
+        message: `Deleted ${blog.title}`,
+        color: "green"
+      })
+      setTimeout(setNotification, 3000, { message: "", color: ""})
+    } catch (exception) {
+      setNotification({
+        message: exception.response.data.error,
+        color: "red"
+      })
+      setTimeout(setNotification, 3000, { message: "", color: ""})
+    }
+  }
+
   // liked blogs on top
   const compareByLikes = (a, b) => {
     return b.likes - a.likes
@@ -128,7 +146,12 @@ const App = () => {
 
               <h2> blogs</h2>
               {blogs.sort(compareByLikes).map(blog =>
-                <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+                <Blog
+                    key={blog.id}
+                    blog={blog}
+                    updateBlog={updateBlog}
+                    deleteBlog={deleteBlog}
+                    sessionUser={user}/>
               )}
           </>
       }

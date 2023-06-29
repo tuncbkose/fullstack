@@ -15,9 +15,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -62,19 +59,11 @@ const App = () => {
     }
   }
 
-  const createBlog = async (event) => {
-    event.preventDefault()
+  const createBlog = async (newBlog) => {
     try {
-      const newBlog = {
-        title: title,
-        author: author,
-        url: url
-      }
       await blogService.create(newBlog)
       setBlogs(blogs.concat(newBlog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+
       setNotification({
         message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
         color: "green"
@@ -110,16 +99,9 @@ const App = () => {
               <button type="button" onClick={handleLogout}>logout</button>
             </p>
             <Togglable buttonLabel="new note">
-            <h2>create new</h2>
-            <BlogForm
-              createHandler={createBlog}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}/>
-              </Togglable>
+              <h2>create new</h2>
+              <BlogForm createHandler={createBlog}/>
+            </Togglable>
 
               <h2> blogs</h2>
               {blogs.map(blog =>

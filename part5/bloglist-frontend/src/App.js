@@ -96,6 +96,11 @@ const App = () => {
     }
   }
 
+  // liked blogs on top
+  const compareByLikes = (a, b) => {
+    return b.likes - a.likes
+  }
+
   return (
     <div>
       <Notification settings={notification}/>
@@ -122,7 +127,7 @@ const App = () => {
             </Togglable>
 
               <h2> blogs</h2>
-              {blogs.map(blog =>
+              {blogs.sort(compareByLikes).map(blog =>
                 <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
               )}
           </>

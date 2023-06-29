@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
-import Togglable from "./components/Togglable";
+import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
-import BlogForm from "./components/BlogForm"
+import BlogForm from './components/BlogForm'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -11,7 +11,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [notification, setNotification] = useState({message: "", color: ""})
+  const [notification, setNotification] = useState({ message: '', color: '' })
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -45,16 +45,16 @@ const App = () => {
       })
 
       window.localStorage.setItem(
-          'loggedBlogappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotification({ message: 'Wrong credentials', color: "red" })
-      setTimeout(()=> {
-        setNotification({message: "", color: ""})
+      setNotification({ message: 'Wrong credentials', color: 'red' })
+      setTimeout(() => {
+        setNotification({ message: '', color: '' })
       }, 5000)
     }
   }
@@ -66,15 +66,15 @@ const App = () => {
 
       setNotification({
         message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
-        color: "green"
+        color: 'green'
       })
-      setTimeout(setNotification, 3000, { message: "", color: ""})
+      setTimeout(setNotification, 3000, { message: '', color: '' })
     } catch (exception) {
       setNotification({
         message: exception.response.data.error,
-        color: "red"
+        color: 'red'
       })
-      setTimeout(setNotification, 3000, { message: "", color: ""})
+      setTimeout(setNotification, 3000, { message: '', color: '' })
     }
   }
 
@@ -84,15 +84,15 @@ const App = () => {
       setBlogs(blogs.map(blog => blog.id === uptBlog.id ? uptBlog : blog))
       setNotification({
         message: `Liked ${uptBlog.title} by ${uptBlog.author}`,
-        color: "green"
+        color: 'green'
       })
-      setTimeout(setNotification, 3000, { message: "", color: ""})
+      setTimeout(setNotification, 3000, { message: '', color: '' })
     } catch (exception) {
       setNotification({
         message: exception.response.data.error,
-        color: "red"
+        color: 'red'
       })
-      setTimeout(setNotification, 3000, { message: "", color: ""})
+      setTimeout(setNotification, 3000, { message: '', color: '' })
     }
   }
 
@@ -102,15 +102,15 @@ const App = () => {
       setBlogs(blogs.filter(b => b.id !== blog.id))
       setNotification({
         message: `Deleted ${blog.title}`,
-        color: "green"
+        color: 'green'
       })
-      setTimeout(setNotification, 3000, { message: "", color: ""})
+      setTimeout(setNotification, 3000, { message: '', color: '' })
     } catch (exception) {
       setNotification({
         message: exception.response.data.error,
-        color: "red"
+        color: 'red'
       })
-      setTimeout(setNotification, 3000, { message: "", color: ""})
+      setTimeout(setNotification, 3000, { message: '', color: '' })
     }
   }
 
@@ -144,15 +144,15 @@ const App = () => {
               <BlogForm createHandler={createBlog}/>
             </Togglable>
 
-              <h2> blogs</h2>
-              {blogs.sort(compareByLikes).map(blog =>
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    updateBlog={updateBlog}
-                    deleteBlog={deleteBlog}
-                    sessionUser={user}/>
-              )}
+            <h2> blogs</h2>
+            {blogs.sort(compareByLikes).map(blog =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                updateBlog={updateBlog}
+                deleteBlog={deleteBlog}
+                sessionUser={user}/>
+            )}
           </>
       }
 

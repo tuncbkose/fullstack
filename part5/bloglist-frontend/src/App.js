@@ -78,6 +78,24 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (updatedBlog) => {
+    try {
+      const uptBlog = await blogService.update(updatedBlog)
+      setBlogs(blogs.map(blog => blog.id === uptBlog.id ? uptBlog : blog))
+      setNotification({
+        message: `Liked ${uptBlog.title} by ${uptBlog.author}`,
+        color: "green"
+      })
+      setTimeout(setNotification, 3000, { message: "", color: ""})
+    } catch (exception) {
+      setNotification({
+        message: exception.response.data.error,
+        color: "red"
+      })
+      setTimeout(setNotification, 3000, { message: "", color: ""})
+    }
+  }
+
   return (
     <div>
       <Notification settings={notification}/>
@@ -105,7 +123,7 @@ const App = () => {
 
               <h2> blogs</h2>
               {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
               )}
           </>
       }

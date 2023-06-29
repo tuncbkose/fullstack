@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({blog}) => {
+const Blog = ({ blog, updateBlog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -16,8 +16,9 @@ const Blog = ({blog}) => {
   }
 
   const likeHandler = (event) => {
-    event.preventDefault()
-    console.log("Like clicked")
+      event.preventDefault()
+      const updatedBlog = {...blog, likes: blog.likes+1}
+      updateBlog(updatedBlog)
   }
 
   return (

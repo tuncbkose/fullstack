@@ -11,7 +11,7 @@ const BlogForm = ({ createHandler }) => {
             title: title,
             author: author,
             url: url
-          }
+        }
         createHandler(newBlog)
         setTitle('')
         setAuthor('')

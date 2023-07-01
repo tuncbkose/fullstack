@@ -4,6 +4,10 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
+Cypress.Commands.add('create_user', (user) => {
+  cy.request('POST', 'http://localhost:3003/api/users', user)
+})
+
 Cypress.Commands.add('login', ({ username, password }) => {
   cy.request('POST', 'http://localhost:3003/api/login', {
     username, password

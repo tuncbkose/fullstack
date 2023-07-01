@@ -6,7 +6,7 @@ describe('Blog app', function () {
       username: 'root',
       password: 'password'
     }
-    cy.request('POST', 'http://localhost:3000/api/users', user)
+    cy.create_user(user)
     cy.visit('http://localhost:3000')
   })
 
@@ -75,6 +75,15 @@ describe('Blog app', function () {
         .should('contain', 'Deleted My Blog')
         .and('have.css', 'color', 'rgb(0, 128, 0)')
       cy.get('html').should('not.contain', '.blogEntry.short')
+    })
+
+    it('Non-owner can\'t see the delete button', function() {
+      cy.create_blog({ title: 'My Blog', author: 'Mr Blog', url: 'www.blog.com' })
+      cy.contains('logout').click()
+      cy.create_user({ name: 'Norm Al', username: 'normal', password: 'password' })
+      cy.login({ username: 'normal', password: 'password' })
+      cy.contains('view').click()
+      cy.get('html').should('not.contain', '.deleteButton')
     })
   })
 })

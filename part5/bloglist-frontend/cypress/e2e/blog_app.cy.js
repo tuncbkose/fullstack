@@ -51,5 +51,17 @@ describe('Blog app', function () {
 
       cy.get('.blogEntry').contains('My Awesome Blog Mr Blogperson')
     })
+
+    it('A blog can be liked', function() {
+      cy.create_blog({ title: 'My Blog', author: 'Mr Blog', url: 'www.blog.com' })
+      // create_blog uses the API to create
+      // reload page to see the effect
+      cy.reload()
+
+      cy.contains('view').click()
+      cy.get('.blogEntry.long').should('contain', 'likes 0')
+      cy.get('.likeButton').click()
+      cy.get('.blogEntry.long').should('contain', 'likes 1')
+    })
   })
 })

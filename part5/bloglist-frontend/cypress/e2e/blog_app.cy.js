@@ -1,17 +1,18 @@
 describe('Blog app', function () {
   beforeEach(function () {
-    cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    //cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`)
     const user = {
       name: 'Ro Ot',
       username: 'root',
       password: 'password'
     }
     cy.create_user(user)
-    cy.visit('http://localhost:3000')
+    cy.visit('')
   })
 
   it('Login form is shown', function () {
-    cy.visit('http://localhost:3000')
+    cy.visit('')
     cy.contains('login')
   })
 
@@ -84,6 +85,18 @@ describe('Blog app', function () {
       cy.login({ username: 'normal', password: 'password' })
       cy.contains('view').click()
       cy.get('html').should('not.contain', '.deleteButton')
+    })
+
+    it('Blogs are ordered by likes', function() {
+      cy.create_blog({ title: 'Blog1', author: 'Mr Blog', url: 'www.blog1.com' })
+      cy.create_blog({ title: 'Blog2', author: 'Mr Blog', url: 'www.blog2.com' })
+      cy.reload()
+
+      cy.get('.viewButton').eq(1).click()
+      cy.get('.likeButton').eq(1).click()
+
+      cy.get('.blogEntry.long').eq(0).should('contain', 'Blog2')
+      cy.get('.blogEntry.short').eq(1).should('contain', 'Blog1')
     })
   })
 })

@@ -63,5 +63,18 @@ describe('Blog app', function () {
       cy.get('.likeButton').click()
       cy.get('.blogEntry.long').should('contain', 'likes 1')
     })
+
+    it('A blog can be deleted by its creator', function() {
+      cy.create_blog({ title: 'My Blog', author: 'Mr Blog', url: 'www.blog.com' })
+      cy.reload()
+
+      cy.contains('view').click()
+      cy.get('.deleteButton').click()
+
+      cy.get('.notification')
+        .should('contain', 'Deleted My Blog')
+        .and('have.css', 'color', 'rgb(0, 128, 0)')
+      cy.get('html').should('not.contain', '.blogEntry.short')
+    })
   })
 })

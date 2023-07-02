@@ -13,15 +13,35 @@ const App = () => {
     })
   }
 
+  const ok = () => {
+    store.dispatch({
+      type: 'OK'
+    })
+  }
+
+  const bad = () => {
+    store.dispatch({
+      type: 'BAD'
+    })
+  }
+
+  const zero = () => {
+    store.dispatch({
+      type: 'ZERO'
+    })
+  }
+
+  const reducerState = store.getState()
+
   return (
     <div>
       <button onClick={good}>good</button> 
-      <button>ok</button> 
-      <button>bad</button>
-      <button>reset stats</button>
-      <div>good {store.getState().good}</div>
-      <div>ok</div>
-      <div>bad</div>
+      <button onClick={ok}>ok</button>
+      <button onClick={bad}>bad</button>
+      <button onClick={zero}>reset stats</button>
+      <div>good {reducerState.good}</div>
+      <div>ok {reducerState.ok}</div>
+      <div>bad  {reducerState.bad}</div>
     </div>
   )
 }

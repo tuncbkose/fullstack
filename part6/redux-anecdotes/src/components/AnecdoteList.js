@@ -36,7 +36,9 @@ const AnecdoteList = () => {
     return (
         <>
             <h2>Anecdotes</h2>
-            {anecdotes.sort(compareByVotes).map(anecdote =>
+            {/* I had to get a copy of the array before sorting for some reason */}
+            {anecdotes.slice().sort(compareByVotes)
+                .map(anecdote =>
                 <Anecdote
                     key={anecdote.id}
                     anecdote={anecdote}

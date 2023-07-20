@@ -20,11 +20,11 @@ const parseExerciseArguments = (args: string[]): ExerciseInput => {
         return {
             target,
             hours
-        }
+        };
     } else {
         throw new Error('Provided values were not numbers!');
     }
-}
+};
 
 const calculateExercises = (hours: number[], target: number): Result => {
     const average = hours.reduce((acc, num) => acc+num) / hours.length;
@@ -37,8 +37,8 @@ const calculateExercises = (hours: number[], target: number): Result => {
         success: average >= target,
         rating: 3,
         ratingDescription: "could be better"
-    }
-}
+    };
+};
 
 try {
     const { target, hours } = parseExerciseArguments(process.argv);

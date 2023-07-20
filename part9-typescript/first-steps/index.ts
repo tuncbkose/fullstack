@@ -8,23 +8,21 @@ app.get('/hello', (_req, res) => {
 });
 
 app.get('/bmi', (req, res) => {
-    if (req.query.hasOwnProperty('height')
-        && req.query.hasOwnProperty('weight')
-        && !isNaN(Number(req.query.height))
-        && !isNaN(Number(req.query.weight))){
-        const height = Number(req.query.height);
-        const weight = Number(req.query.weight)
+    const { height, weight } = req.query;
+    if (typeof height === 'string'
+        && typeof weight === 'string'
+        && !isNaN(Number(height))
+        && !isNaN(Number(weight))){
         res.json({
             height,
             weight,
-            bmi: calculateBmi(height, weight)
-        })
+            bmi: calculateBmi(Number(height), Number(weight))
+        });
     } else { res.json({error: 'malformatted parameters'}); }
-
 });
 
 const PORT = 3003;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-})
+});

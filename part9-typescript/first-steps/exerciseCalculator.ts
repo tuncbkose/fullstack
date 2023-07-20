@@ -40,11 +40,15 @@ const calculateExercises = (hours: number[], target: number): Result => {
     };
 };
 
-try {
-    const { target, hours } = parseExerciseArguments(process.argv);
-    console.log(calculateExercises(hours, target));
-} catch (error: unknown) {
-    if (error instanceof Error) {
-        console.log(error.message);
+if (require.main === module) {
+    try {
+        const { target, hours } = parseExerciseArguments(process.argv);
+        console.log(calculateExercises(hours, target));
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
     }
 }
+
+export { calculateExercises, ExerciseInput };

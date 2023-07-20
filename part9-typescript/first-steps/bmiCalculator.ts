@@ -26,11 +26,15 @@ const calculateBmi = (heightInCm: number, weightInKg: number): string => {
     return "Normal (healthy weight)";
 }
 
-try {
-    const { heightInCm, weightInKg } = parseBmiArguments(process.argv);
-    console.log(calculateBmi(heightInCm, weightInKg));
-} catch (error: unknown) {
-    if (error instanceof Error) {
-        console.log(error.message);
+if ( require.main === module ){
+    try {
+        const { heightInCm, weightInKg } = parseBmiArguments(process.argv);
+        console.log(calculateBmi(heightInCm, weightInKg));
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
     }
 }
+
+export { calculateBmi };

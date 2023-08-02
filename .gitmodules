@@ -1,0 +1,3 @@
+[submodule "part9-typescript/patientor-frontend"]
+	path = part9-typescript/patientor-frontend
+	url = git@github.com:tuncbkose/patientor.git

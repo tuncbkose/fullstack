@@ -1,23 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 
-import {NonSensitiveDiaryEntry} from "./types";
+import diaryService from './services/diaries'
+
+import {NewDiaryEntry, NonSensitiveDiaryEntry} from "./types";
 import Entry from "./components/Entry";
+import EntryForm from "./components/EntryForm";
 
 
 function App() {
   const [entries, setEntries] = useState<NonSensitiveDiaryEntry[]>([]);
 
+  const createEntry = (newEntry: NewDiaryEntry) => {
+    console.log(newEntry)
+    diaryService.create(newEntry)
+      .then(entry => setEntries(entries.concat(entry)))
+  }
+
   useEffect(() => {
-    axios.get<NonSensitiveDiaryEntry[]>('http://localhost:3000/api/diaries')
-      .then(response => {
-        console.log(response.data);
-        setEntries(response.data);
-      })
+    diaryService.getAll()
+      .then(entries => setEntries(entries))
   }, [])
 
   return (
     <div className="App">
+      <EntryForm createEntry={createEntry}/>
       <h2>Diary Entries</h2>
       {entries.map(entry => <Entry key={entry.date} {... entry}/>)}
     </div>

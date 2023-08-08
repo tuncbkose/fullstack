@@ -32,7 +32,6 @@ const EntryForm = (props: EntryFormProps) => {
 
     return (
         <>
-            <h2>Add a new entry</h2>
             <form onSubmit={handleSubmit}>
                 date <input value={newEntry.date}
                        name='date'

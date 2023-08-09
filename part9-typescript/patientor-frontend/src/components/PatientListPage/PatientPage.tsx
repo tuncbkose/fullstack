@@ -1,11 +1,15 @@
 import {useParams} from "react-router-dom";
 import patientService from "../../services/patients";
 
-import {Patient} from "../../types";
+import {Diagnosis, Patient} from "../../types";
 import {useEffect, useState} from "react";
 import PatientEntry from "./PatientEntry";
 
-const PatientPage = () => {
+interface Props {
+    diagnoses: Diagnosis[];
+}
+
+const PatientPage = ({diagnoses}: Props) => {
     const id = useParams().id;
     const [patient, setPatient] = useState<Patient|undefined>(undefined);
     useEffect(() => {
@@ -22,7 +26,8 @@ const PatientPage = () => {
                 occupation: {patient.occupation}
             </p>
             <h3>entries</h3>
-            {patient.entries.map((entry, index) => <PatientEntry key={entry.id} entry={entry}/>)}
+            {patient.entries.map((entry, index) =>
+                <PatientEntry key={entry.id} entry={entry} diagnoses={diagnoses}/>)}
         </>
     )
 }

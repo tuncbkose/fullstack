@@ -3,6 +3,7 @@ import patientService from "../../services/patients";
 
 import {Patient} from "../../types";
 import {useEffect, useState} from "react";
+import PatientEntry from "./PatientEntry";
 
 const PatientPage = () => {
     const id = useParams().id;
@@ -20,6 +21,8 @@ const PatientPage = () => {
                 ssn: {patient.ssn} <br/>
                 occupation: {patient.occupation}
             </p>
+            <h3>entries</h3>
+            {patient.entries.map((entry, index) => <PatientEntry key={entry.id} entry={entry}/>)}
         </>
     )
 }

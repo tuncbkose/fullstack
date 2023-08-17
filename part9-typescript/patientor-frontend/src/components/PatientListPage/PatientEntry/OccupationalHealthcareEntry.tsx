@@ -9,7 +9,7 @@ interface Props {
 const OccupationalHealthcareEntry = ({entry, diagnoses}: Props) => {
     return (
         <div style={entryStyle} className='OccupationalHealthcareEntry'>
-            {entry.date} {entry.employerName} ({entry.type} entry) <br/>
+            {entry.date} {entry.employer} ({entry.type} entry) <br/>
             <i>{entry.description}</i> <br/>
             diagnosis by {entry.specialist}
         </div>

@@ -45,7 +45,7 @@ const PatientPage = ({diagnoses}: Props) => {
                 occupation: {patient.occupation}
             </p>
             <Notification message={notification}/>
-            <NewEntryForm addNewEntry={addNewEntry}/>
+            <NewEntryForm addNewEntry={addNewEntry} diagnoses={diagnoses}/>
             <h3>entries</h3>
             {patient.entries.map((entry, index) =>
                 <PatientEntry key={entry.id} entry={entry} diagnoses={diagnoses}/>)}

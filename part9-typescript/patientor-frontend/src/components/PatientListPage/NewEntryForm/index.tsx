@@ -1,11 +1,12 @@
 import {useState} from "react";
 import {HealthCheckEntryForm} from "./HealthCheckEntryForm";
-import {EntryWithoutId} from "../../../types";
+import {Diagnosis, EntryWithoutId} from "../../../types";
 import {OccupationalHealthcareEntryForm} from "./OccupationalHealthcareEntryForm";
 import {HospitalEntryForm} from "./HospitalEntryForm";
 
 interface Props {
-    addNewEntry: (newEntry: EntryWithoutId) => void
+    addNewEntry: (newEntry: EntryWithoutId) => void,
+    diagnoses: Diagnosis[]
 }
 
 const formStyle = {
@@ -13,18 +14,18 @@ const formStyle = {
     padding: 10,
 }
 
-export const NewEntryForm = ({addNewEntry}: Props) => {
+export const NewEntryForm = (props: Props) => {
     const [selectedEntryForm, setSelectedEntryForm] = useState('');
     let form;
     switch (selectedEntryForm) {
         case "HealthCheck":
-            form = <HealthCheckEntryForm addNewEntry={addNewEntry}/>
+            form = <HealthCheckEntryForm {...props}/>
             break
         case "OccupationalHealthcare":
-            form = <OccupationalHealthcareEntryForm addNewEntry={addNewEntry}/>
+            form = <OccupationalHealthcareEntryForm {...props}/>
             break
         case "Hospital":
-            form = <HospitalEntryForm addNewEntry={addNewEntry}/>
+            form = <HospitalEntryForm {...props}/>
             break
         default:
             form = null;

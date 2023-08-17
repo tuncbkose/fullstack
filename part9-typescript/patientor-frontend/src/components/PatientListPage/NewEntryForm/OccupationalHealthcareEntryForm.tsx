@@ -1,21 +1,23 @@
 import React, {useState} from "react";
-import {EntryWithoutId, OccupationalHealthcareEntryT} from "../../../types";
+import {Diagnosis, EntryWithoutId, OccupationalHealthcareEntryT} from "../../../types";
+import {DiagnosisCodesSelect} from "./DiagnosisCodesSelect";
 
 const defaultEntry = {
     description: '',
     date: '',
     specialist: '',
-    diagnosisCodes: '',
+    diagnosisCodes: [],
     employer: '',
     sickLeaveStart: '',
     sickLeaveEnd: '',
 }
 
 interface Props {
-    addNewEntry: (newEntry: EntryWithoutId) => void
+    addNewEntry: (newEntry: EntryWithoutId) => void,
+    diagnoses: Diagnosis[]
 }
 
-export const OccupationalHealthcareEntryForm = ({addNewEntry}: Props) => {
+export const OccupationalHealthcareEntryForm = ({addNewEntry, diagnoses}: Props) => {
     const [newEntry, setNewEntry] = useState(defaultEntry);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => {
         setNewEntry({
@@ -30,7 +32,6 @@ export const OccupationalHealthcareEntryForm = ({addNewEntry}: Props) => {
         const entryObject: Omit<OccupationalHealthcareEntryT, 'id'> = {
             ...rest,
             type: "OccupationalHealthcare",
-            diagnosisCodes: newEntry.diagnosisCodes.split(','),
         }
         if (!(sickLeaveStart === '')){
             entryObject.sickLeave = {
@@ -62,9 +63,8 @@ export const OccupationalHealthcareEntryForm = ({addNewEntry}: Props) => {
                    name='employer'
                    onChange={handleChange}/> <br/>
             Diagnosis codes:
-            <input value={newEntry.diagnosisCodes}
-                   name='diagnosisCodes'
-                   onChange={handleChange}/> <br/>
+            <DiagnosisCodesSelect diagnoses={diagnoses} state={newEntry} setState={setNewEntry}/> <br/>
+
             Sickleave <br/>
             start:
             <input type="date"

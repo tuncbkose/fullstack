@@ -1,19 +1,21 @@
 import React, {useState} from "react";
-import {EntryWithoutId, HealthCheckEntryT, HealthCheckRating} from "../../../types";
+import {Diagnosis, EntryWithoutId, HealthCheckEntryT, HealthCheckRating} from "../../../types";
+import {DiagnosisCodesSelect} from "./DiagnosisCodesSelect";
 
 const defaultEntry = {
     description: '',
     date: '',
     specialist: '',
     healthCheckRating: HealthCheckRating.Healthy,
-    diagnosisCodes: '',
+    diagnosisCodes: [],
 }
 
 interface Props {
-    addNewEntry: (newEntry: EntryWithoutId) => void
+    addNewEntry: (newEntry: EntryWithoutId) => void,
+    diagnoses: Diagnosis[]
 }
 
-export const HealthCheckEntryForm = ({addNewEntry}: Props) => {
+export const HealthCheckEntryForm = ({addNewEntry, diagnoses}: Props) => {
     const [newEntry, setNewEntry] = useState(defaultEntry);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => {
         setNewEntry({
@@ -27,7 +29,6 @@ export const HealthCheckEntryForm = ({addNewEntry}: Props) => {
         const entryObject: Omit<HealthCheckEntryT, 'id'> = {
             ...newEntry,
             type: "HealthCheck",
-            diagnosisCodes: newEntry.diagnosisCodes.split(','),
             healthCheckRating: Number(newEntry.healthCheckRating)
         }
         addNewEntry(entryObject)
@@ -59,9 +60,7 @@ export const HealthCheckEntryForm = ({addNewEntry}: Props) => {
                 <option value={HealthCheckRating.CriticalRisk}>Critical Risk</option>
             </select> <br/>
             Diagnosis codes:
-            <input value={newEntry.diagnosisCodes}
-                   name='diagnosisCodes'
-                   onChange={handleChange}/> <br/>
+            <DiagnosisCodesSelect diagnoses={diagnoses} state={newEntry} setState={setNewEntry}/> <br/>
             <button type='submit'>add</button>
         </form>
     )

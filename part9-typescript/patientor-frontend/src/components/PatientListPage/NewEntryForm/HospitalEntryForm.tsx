@@ -1,20 +1,22 @@
 import React, {useState} from "react";
-import {EntryWithoutId, HospitalEntryT} from "../../../types";
+import {Diagnosis, EntryWithoutId, HospitalEntryT} from "../../../types";
+import {DiagnosisCodesSelect} from "./DiagnosisCodesSelect";
 
 const defaultEntry = {
     description: '',
     date: '',
     specialist: '',
-    diagnosisCodes: '',
+    diagnosisCodes: [],
     dischargeDate: '',
     dischargeCriteria: '',
 }
 
 interface Props {
-    addNewEntry: (newEntry: EntryWithoutId) => void
+    addNewEntry: (newEntry: EntryWithoutId) => void,
+    diagnoses: Diagnosis[]
 }
 
-export const HospitalEntryForm = ({addNewEntry}: Props) => {
+export const HospitalEntryForm = ({addNewEntry, diagnoses}: Props) => {
     const [newEntry, setNewEntry] = useState(defaultEntry);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => {
         setNewEntry({
@@ -29,7 +31,6 @@ export const HospitalEntryForm = ({addNewEntry}: Props) => {
         const entryObject: Omit<HospitalEntryT, 'id'> = {
             ...rest,
             type: "Hospital",
-            diagnosisCodes: newEntry.diagnosisCodes.split(','),
             discharge: {
                 date: dischargeDate,
                 criteria: dischargeCriteria
@@ -56,9 +57,8 @@ export const HospitalEntryForm = ({addNewEntry}: Props) => {
                    onChange={handleChange}/> <br/>
 
             Diagnosis codes:
-            <input value={newEntry.diagnosisCodes}
-                   name='diagnosisCodes'
-                   onChange={handleChange}/> <br/>
+            <DiagnosisCodesSelect diagnoses={diagnoses} state={newEntry} setState={setNewEntry}/> <br/>
+
             Discharge <br/>
             date:
             <input type="date"

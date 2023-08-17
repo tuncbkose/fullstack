@@ -169,9 +169,9 @@ export const toNewEntry = (object: unknown): EntryWithoutId => {
         }
         switch (base.type){
             case "HealthCheck": {
-                if (!('rating' in object)) throw new Error('Incorrect data: some fields are missing');
+                if (!('healthCheckRating' in object)) throw new Error('Incorrect data: some fields are missing');
                 return {
-                    healthCheckRating: parseHealthCheckRating(object.rating),
+                    healthCheckRating: parseHealthCheckRating(object.healthCheckRating),
                     ...base,
                     type: "HealthCheck", // this makes type checking happier
                 };
